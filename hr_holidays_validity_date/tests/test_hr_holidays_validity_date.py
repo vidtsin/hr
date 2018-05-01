@@ -38,8 +38,9 @@ class TestHrHolidaysValidityDate(common.TransactionCase):
         self.employee01 = self.env.ref('hr.employee_mit')
 
     def test_holidays_without_validity(self):
-        today = datetime.now().strftime(DEFAULT_SERVER_DATETIME_FORMAT)
-        tommorow = (datetime.now() + timedelta(days=1))\
+        start_date = datetime.now().replace(day=4)
+        start = start_date.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+        end = (start_date + timedelta(days=1))\
             .strftime(DEFAULT_SERVER_DATETIME_FORMAT)
         allocation_vals = {
             'name': 'Test',
@@ -53,8 +54,8 @@ class TestHrHolidaysValidityDate(common.TransactionCase):
             'employee_id': self.employee01.id,
             'name': 'test',
             'holiday_status_id': self.type01.id,
-            'date_from': today,
-            'date_to': tommorow,
+            'date_from': start,
+            'date_to': end,
             'number_of_days_temp': 2,
         }
         self.holidays_obj.create(leave_vals)
